@@ -1,3 +1,7 @@
+output "bot_channel_slacks_id" {
+  description = "Map of id values across all bot_channel_slacks, keyed the same as var.bot_channel_slacks"
+  value       = { for k, v in azurerm_bot_channel_slack.bot_channel_slacks : k => v.id }
+}
 output "bot_channel_slacks_bot_name" {
   description = "Map of bot_name values across all bot_channel_slacks, keyed the same as var.bot_channel_slacks"
   value       = { for k, v in azurerm_bot_channel_slack.bot_channel_slacks : k => v.bot_name }
