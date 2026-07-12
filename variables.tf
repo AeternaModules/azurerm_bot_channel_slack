@@ -5,23 +5,35 @@ Required:
     - bot_name
     - client_id
     - client_secret
+    - client_secret_key_vault_id (alternative to client_secret - read from Key Vault instead)
+    - client_secret_key_vault_secret_name (alternative to client_secret - read from Key Vault instead)
     - location
     - resource_group_name
     - verification_token
+    - verification_token_key_vault_id (alternative to verification_token - read from Key Vault instead)
+    - verification_token_key_vault_secret_name (alternative to verification_token - read from Key Vault instead)
 Optional:
     - landing_page_url
     - signing_secret
+    - signing_secret_key_vault_id (alternative to signing_secret - read from Key Vault instead)
+    - signing_secret_key_vault_secret_name (alternative to signing_secret - read from Key Vault instead)
 EOT
 
   type = map(object({
-    bot_name            = string
-    client_id           = string
-    client_secret       = string
-    location            = string
-    resource_group_name = string
-    verification_token  = string
-    landing_page_url    = optional(string)
-    signing_secret      = optional(string)
+    bot_name                                 = string
+    client_id                                = string
+    client_secret                            = string
+    client_secret_key_vault_id               = optional(string)
+    client_secret_key_vault_secret_name      = optional(string)
+    location                                 = string
+    resource_group_name                      = string
+    verification_token                       = string
+    verification_token_key_vault_id          = optional(string)
+    verification_token_key_vault_secret_name = optional(string)
+    landing_page_url                         = optional(string)
+    signing_secret                           = optional(string)
+    signing_secret_key_vault_id              = optional(string)
+    signing_secret_key_vault_secret_name     = optional(string)
   }))
   validation {
     condition = alltrue([
