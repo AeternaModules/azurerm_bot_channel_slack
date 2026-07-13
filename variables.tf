@@ -5,13 +5,13 @@ Required:
     - bot_name
     - client_id
     - client_secret
-    - client_secret_key_vault_id (alternative to client_secret - read from Key Vault instead)
-    - client_secret_key_vault_secret_name (alternative to client_secret - read from Key Vault instead)
+    - client_secret_key_vault_id (optional, alternative to client_secret)
+    - client_secret_key_vault_secret_name (optional, alternative to client_secret)
     - location
     - resource_group_name
     - verification_token
-    - verification_token_key_vault_id (alternative to verification_token - read from Key Vault instead)
-    - verification_token_key_vault_secret_name (alternative to verification_token - read from Key Vault instead)
+    - verification_token_key_vault_id (optional, alternative to verification_token)
+    - verification_token_key_vault_secret_name (optional, alternative to verification_token)
 Optional:
     - landing_page_url
     - signing_secret
@@ -35,54 +35,6 @@ EOT
     signing_secret_key_vault_id              = optional(string)
     signing_secret_key_vault_secret_name     = optional(string)
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_slacks : (
-        length(v.bot_name) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_slacks : (
-        length(v.client_id) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_slacks : (
-        length(v.client_secret) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_slacks : (
-        length(v.verification_token) > 0
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_slacks : (
-        v.landing_page_url == null || (length(v.landing_page_url) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.bot_channel_slacks : (
-        v.signing_secret == null || (length(v.signing_secret) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_bot_channel_slack's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -103,5 +55,23 @@ EOT
   #   source:    [from resourcegroups.ValidateName] !matched
   # path: location
   #   source:    location.EnhancedValidate: no recognizable `if ... { errors = append(...) }` pattern - read it by hand
+  # path: bot_name
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: client_id
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: client_secret
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: verification_token
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: landing_page_url
+  #   condition: length(value) > 0
+  #   message:   must not be empty
+  # path: signing_secret
+  #   condition: length(value) > 0
+  #   message:   must not be empty
 }
 
